@@ -1,0 +1,24 @@
+groovy
+
+pipeline {
+    agent any
+    stages {
+        stage('Wait for Input') {
+            steps {
+                script {
+                    // Request user input
+                    def userInput = input(
+                        id: 'userInput', 
+                        message: 'Enter Build Version:', 
+                        parameters: [string(name: 'VERSION', defaultValue: '', description: 'Example: 1.0.0')]
+                    )
+
+                    // Validation logic
+                    if (userInput == "" || userInput == null) {
+                        error "Validation Failed: Version number cannot be empty!"
+                    } else {
+                        echo "Validation Passed! Version to build: ${userInput}"
+                    }
+                }
+            }
+        }
