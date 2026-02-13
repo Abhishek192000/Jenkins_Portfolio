@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages {
+        stage('Backup') {
+            steps {
+                // chmod and run in one line
+                sh 'chmod +x jenkins_backup.sh && ./jenkins_backup.sh'
+            }
+        }
+        stage('Verify') {
+            steps {
+                sh 'ls -lh backups/'
+            }
+        }
+    }
+}
+
