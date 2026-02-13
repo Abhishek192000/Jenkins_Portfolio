@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('Master Server Details') {
+            steps {
+                echo "--- Details of Jenkins Master Node ---"
+                sh 'hostname -I' 
+                sh 'uname -a'     
+                sh 'uptime'       
+            }
+        }
+        stage('Slave Server Details') {
+            steps {
+                echo "--- Fetching Server Information ---"
+                sh 'free -m'      
+                sh 'df -h'        
+            }
+        }
+    }
+}
+
