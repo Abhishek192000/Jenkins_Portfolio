@@ -1,0 +1,26 @@
+pipeline {
+    agent none 
+    stages {
+        stage('Node 1 Work') {
+            agent { label 'node1' }
+            steps {
+                script {
+                    for (int i = 1; i <= 5; i++) {
+                        echo "Stage ${i} is running on Node 1"
+                    }
+                }
+            }
+        }
+        stage('Node 2 Work') {
+            agent { label 'node2' }
+            steps {
+                script {
+                    for (int i = 6; i <= 10; i++) {
+                        echo "Stage ${i} is running on Node 2"
+                    }
+                }
+            }
+        }
+    }
+}
+
