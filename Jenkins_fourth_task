@@ -1,17 +1,21 @@
 pipeline {
     agent any
     stages {
-        stage('Validate Input') {
+        stage('Validate Input with Timeout') {
             steps {
-                script {
-                    def version = input(
-                        message: 'Enter Build Version:',
-                        parameters: [string(name: 'VER', defaultValue: '', description: 'e.g. 1.0.1')]
-                    )
-                    if (version == "" || version == null) {
-                        error "Build Aborted: Version is empty!"
-                    } else {
-                        echo "Version set to: ${version}"
+                // The timeout block wraps the input to prevent hanging
+                timeout(time: 60, unit: 'SECONDS') { 
+                    script {
+                        def version = input(
+                            message: 'Enter Build Version (60s limit):',
+                            parameters: [string(name: 'VER', defaultValue: '', description: 'e.g. 1.0.1')]
+                        )
+                        
+                        if (version == "" || version == null) {
+                            error "Build Aborted: Version is empty!"
+                        } else {
+                            echo "Version set to: ${version}"
+                        }
                     }
                 }
             }
